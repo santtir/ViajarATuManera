@@ -40,7 +40,7 @@ const DESTINOS_FALLBACK = [
     imagen_url: 'https://images.unsplash.com/photo-1528181304800-259b08848526?w=700&q=80', tags: ['cultura','naturaleza'] },
   { id: 'galapagos', nombre: 'Galápagos', region: 'Ecuador · Pacífico',
     descripcion: 'El laboratorio vivo de Darwin: iguanas marinas, pingüinos y tortugas gigantes sin miedo a los humanos.',
-    imagen_url: 'https://images.unsplash.com/photo-1518020382113-a7e8fc38eac9?w=700&q=80', tags: ['naturaleza','fauna'] },
+    imagen_url: 'https://images.unsplash.com/photo-1506799964541-c7117a42cc22?w=700&q=80', tags: ['naturaleza','fauna'] },
   { id: 'nueva-york', nombre: 'Nueva York', region: 'Estados Unidos · América',
     descripcion: 'Arte, gastronomía, cultura y energía pura desde el skyline de Manhattan hasta los mercados de Brooklyn.',
     imagen_url: 'https://images.unsplash.com/photo-1534430480872-3498386e7856?w=700&q=80', tags: ['cultura','moderno'] },
