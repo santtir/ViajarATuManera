@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Sitio web agencia de turismo personalizado",
   "private": true,
+  "type": "module",
   "engines": {
     "node": "20.x"
   },
