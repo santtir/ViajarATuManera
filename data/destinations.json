@@ -1,0 +1,57 @@
+{
+  "pack": {
+    "nombre": "Destinos Soñados — Vol. 1",
+    "activo_hasta": "2025-09-01",
+    "descripcion": "Una selección de destinos para mitad de 2025"
+  },
+  "destinos": [
+    {
+      "id": "santorini",
+      "nombre": "Santorini",
+      "region": "Grecia · Europa",
+      "descripcion": "Atardeceres míticos sobre el Egeo, casas blancas y vinos volcánicos únicos en el mundo.",
+      "imagen_url": "https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?w=700&q=80",
+      "tags": ["romántico", "playa", "lujo", "gastronomía"]
+    },
+    {
+      "id": "bali",
+      "nombre": "Bali",
+      "region": "Indonesia · Asia",
+      "descripcion": "Templos entre arrozales, playas de arena negra y una espiritualidad que transforma el alma.",
+      "imagen_url": "https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=700&q=80",
+      "tags": ["espiritual", "naturaleza", "cultura", "aventura"]
+    },
+    {
+      "id": "patagonia",
+      "nombre": "Patagonia",
+      "region": "Argentina & Chile",
+      "descripcion": "Torres de granito, glaciares eternos y una naturaleza que te deja sin palabras.",
+      "imagen_url": "https://images.unsplash.com/photo-1501854140801-50d01698950b?w=700&q=80",
+      "tags": ["naturaleza", "aventura", "trekking", "paisajes"]
+    },
+    {
+      "id": "kioto",
+      "nombre": "Kioto",
+      "region": "Japón · Asia",
+      "descripcion": "Geishas, templos dorados, jardines zen y cerezos en flor: el Japón eterno.",
+      "imagen_url": "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=700&q=80",
+      "tags": ["cultura", "historia", "gastronomía", "espiritual"]
+    },
+    {
+      "id": "marrakech",
+      "nombre": "Marrakech",
+      "region": "Marruecos · África",
+      "descripcion": "Zoco laberíntico, palacios de mosaico y el perfume del jazmín al anochecer.",
+      "imagen_url": "https://images.unsplash.com/photo-1539020140153-e479b8c22e70?w=700&q=80",
+      "tags": ["cultura", "gastronomía", "historia", "exótico"]
+    },
+    {
+      "id": "maldivas",
+      "nombre": "Maldivas",
+      "region": "Océano Índico",
+      "descripcion": "Bungalows sobre el agua cristalina, arrecifes de coral y el azul más puro del planeta.",
+      "imagen_url": "https://images.unsplash.com/photo-1514282401047-d79a71a590e8?w=700&q=80",
+      "tags": ["lujo", "playa", "romántico", "buceo"]
+    }
+  ]
+}

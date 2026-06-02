@@ -1,0 +1,12 @@
+{
+  "name": "viajar-a-tu-manera",
+  "version": "1.0.0",
+  "description": "Sitio web agencia de turismo personalizado",
+  "private": true,
+  "engines": {
+    "node": "20.x"
+  },
+  "dependencies": {
+    "@upstash/redis": "^1.34.0"
+  }
+}
