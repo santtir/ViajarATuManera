@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -36,10 +36,13 @@
   <p class="hero-sub">Asesoría turística personalizada</p>
   <p class="hero-tagline">Cada viaje es único,<br>como <em>vos</em></p>
   <div class="hero-btns">
-    <button class="btn-primary" onclick="goTo('#planificador')">Planificar mi viaje</button>
-    <button class="btn-outline" onclick="goTo('#destinos')">Ver destinos</button>
+    <div class="hero-btns-top">
+      <button class="btn-primary" onclick="goTo('#planificador')">Planificar mi viaje</button>
+      <button class="btn-outline" onclick="goTo('#destinos')">Ver destinos</button>
+    </div>
+    <button class="btn-cotizar" onclick="goTo('#cotizacion')">Cotizar</button>
   </div>
-  <div class="scroll-line">scroll</div>
+  <div class="scroll-line"></div>
 </section>
 
 <!-- DESTINOS -->
