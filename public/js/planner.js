@@ -8,7 +8,7 @@ const SECCIONES_CONFIG = [
   { emoji: '✨', titulo: 'Experiencia Estrella' },
   { emoji: '🍽️', titulo: 'Gastronomía' },
   { emoji: '💡', titulo: 'Consejos Insider' },
-  { emoji: '💰', titulo: 'Presupuesto Estimado' },
+  // { emoji: '💰', titulo: 'Presupuesto Estimado' }, // desactivado temporalmente
 ];
 
 // ─── Token de página ──────────────────────────────────────────
@@ -87,6 +87,7 @@ function buildUserPrompt() {
   const dur   = document.getElementById('dur').value;
   const sueno = document.getElementById('sueno').value.trim();
 
+  // 💰 PRESUPUESTO ESTIMADO desactivado temporalmente — descomentar cuando se reactive
   return `Mi viaje ideal:
 - Destino: ${sel.dest.join(', ')}
 - Estilo: ${sel.tipo.join(', ')}
@@ -109,10 +110,7 @@ Creá un itinerario COMPLETO con estas secciones exactas:
 [3 recomendaciones: nombre del plato y descripción breve.]
 
 💡 CONSEJOS INSIDER
-[3 secretos locales numerados.]
-
-💰 PRESUPUESTO ESTIMADO
-[Desglose: vuelos, hospedaje/noche, comidas/día, actividades, total estimado.]`;
+[3 secretos locales numerados.]`;
 }
 
 // ─── Llamada a la API ─────────────────────────────────────────
@@ -239,7 +237,9 @@ function renderItinerario(secciones, meta) {
     .map(s => `${s.emoji} ${s.titulo.toUpperCase()}\n${s.contenido}`)
     .join('\n\n');
 
-  window._itinerarioMeta = meta;
+  window._itinerarioMeta  = meta;
+  window._itinerarioDest  = sel.dest.map(d => d.replace(/^\S+\s/, '')).join(', ');
+  window._itinerarioResumen = secciones.find(s => s.titulo === 'Itinerario Día a Día')?.contenido || '';
 }
 
 function buildMeta() {
@@ -268,8 +268,10 @@ function resetPlanner() {
   document.getElementById('sueno').value = '';
   document.getElementById('result').hidden = true;
 
-  window._itinerarioTexto = '';
-  window._itinerarioMeta  = '';
+  window._itinerarioTexto   = '';
+  window._itinerarioMeta    = '';
+  window._itinerarioDest    = '';
+  window._itinerarioResumen = '';
 
   goTo('#planificador');
 }
