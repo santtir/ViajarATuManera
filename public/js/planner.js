@@ -43,8 +43,25 @@ function pickOne(btn, group) {
 }
 
 function updDur() {
-  const val = document.getElementById('dur').value;
-  document.getElementById('durVal').textContent = val + ' días';
+  const input = document.getElementById('dur');
+  const min = Number(input.min) || 1;
+  const max = Number(input.max) || 30;
+  const val = Math.min(max, Math.max(min, Number(input.value) || min));
+  input.value = val;
+  document.getElementById('durVal').textContent = val === 1 ? '1 día' : val + ' días';
+  document.querySelectorAll('.duration-presets button').forEach(btn => {
+    btn.classList.toggle('active', Number(btn.textContent) === val);
+  });
+}
+
+function setDur(value) {
+  document.getElementById('dur').value = value;
+  updDur();
+}
+
+function stepDur(delta) {
+  const input = document.getElementById('dur');
+  setDur((Number(input.value) || 1) + delta);
 }
 
 // ─── Validación ───────────────────────────────────────────────
@@ -239,7 +256,7 @@ function resetPlanner() {
     .forEach(c => c.classList.remove('selected'));
 
   document.getElementById('dur').value = 7;
-  document.getElementById('durVal').textContent = '7 días';
+  updDur();
   document.getElementById('sueno').value = '';
   document.getElementById('result').hidden = true;
 
@@ -252,10 +269,13 @@ function resetPlanner() {
 // ─── Inicialización ───────────────────────────────────────────
 
 document.addEventListener('DOMContentLoaded', initPlanner);
+document.addEventListener('DOMContentLoaded', updDur);
 
 window.pick              = pick;
 window.pickOne           = pickOne;
 window.updDur            = updDur;
+window.setDur            = setDur;
+window.stepDur           = stepDur;
 window.generarItinerario = generarItinerario;
 window.resetPlanner      = resetPlanner;
 window.initPlanner       = initPlanner;

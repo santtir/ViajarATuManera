@@ -52,7 +52,7 @@ const DESTINOS_FALLBACK = [
     imagen_url: '/images/destinos/patagonia.jpg', tags: ['naturaleza','aventura'] },
   { id: 'salta-jujuy', nombre: 'Salta y Jujuy', region: 'Argentina · Noroeste',
     descripcion: 'La Quebrada de Humahuaca, montañas ocres y púrpuras, y la cultura andina viva del norte argentino.',
-    imagen_url: 'https://images.unsplash.com/photo-1518639192441-8fce0a366e2e?w=700&q=80', tags: ['cultura','naturaleza'] },
+    imagen_url: '/images/destinos/saltayjujuy.jpg', tags: ['cultura','naturaleza'] },
   { id: 'cruceros', nombre: 'Cruceros', region: 'Mediterráneo · Caribe · Fiordos',
     descripcion: 'Un hotel de lujo que cambia de paisaje cada día: Mediterráneo, Caribe o fiordos noruegos.',
     imagen_url: 'https://images.unsplash.com/photo-1548574505-5e239809ee19?w=700&q=80', tags: ['lujo','familia'] },
