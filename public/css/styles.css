@@ -16,7 +16,7 @@ body { font-family: 'Jost', sans-serif; background: var(--cream); color: var(--d
 /* ─── NAV ───────────────────────────────────────────────────── */
 nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  padding: .8rem 3rem;
+  padding: .4rem 3rem;
   display: flex; align-items: center; gap: .75rem;
   background: rgba(255,255,255,0.96);
   backdrop-filter: blur(12px);
@@ -27,7 +27,7 @@ nav.nav-scrolled {
   box-shadow: 0 4px 24px rgba(28,35,64,.1);
   background: rgba(255,255,255,0.99);
 }
-.nav-logo { height: 38px; }
+.nav-logo { height: 70px; }
 .nav-identity { display: flex; align-items: center; gap: .6rem; }
 .nav-brand {
   font-family: 'Cormorant Garamond', serif;
