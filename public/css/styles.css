@@ -57,14 +57,12 @@ nav.nav-scrolled .nav-brand { color: var(--navy); }
   background: var(--navy);
 }
 #hero::before {
-  content: ''; position: absolute; top: -15%; bottom: -15%; left: 0; right: 0;
+  content: ''; position: absolute; inset: 0;
   background:
     radial-gradient(ellipse 70% 50% at 50% 0%, rgba(176,146,85,.12) 0%, transparent 70%),
     radial-gradient(ellipse 50% 40% at 80% 100%, rgba(176,146,85,.07) 0%, transparent 60%),
     url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1800&q=60') center/cover no-repeat;
   opacity: .18;
-  transform: translateY(var(--parallax-offset, 0));
-  will-change: transform;
 }
 .hero-logo-wrap {
   position: relative; z-index: 2;
@@ -414,7 +412,6 @@ footer span { color: var(--gold); }
     transition: none !important;
     animation: none !important;
   }
-  #hero::before { transform: none !important; }
 }
 
 /* ─── CHIPS MAX ─────────────────────────────────────────────── */
