@@ -64,3 +64,17 @@ function resetCotizacion() {
 
 window.enviarCotizacion = enviarCotizacion;
 window.resetCotizacion  = resetCotizacion;
+
+document.addEventListener('DOMContentLoaded', () => {
+  if (typeof flatpickr !== 'undefined') {
+    flatpickr('#cFechaViaje', {
+      mode: 'range',
+      minDate: 'today',
+      dateFormat: 'd/m/Y',
+      locale: 'es',
+      disableMobile: false,
+      allowInput: false,
+      conjunction: ' → ',
+    });
+  }
+});

@@ -17,7 +17,7 @@ body { font-family: 'Jost', sans-serif; background: var(--cream); color: var(--d
 nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
   padding: .8rem 3rem;
-  display: flex; align-items: center; justify-content: space-between;
+  display: flex; align-items: center; gap: .75rem;
   background: rgba(255,255,255,0.96);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(176,146,85,.15);
@@ -28,6 +28,13 @@ nav.nav-scrolled {
   background: rgba(255,255,255,0.99);
 }
 .nav-logo { height: 38px; }
+.nav-identity { display: flex; align-items: center; gap: .6rem; }
+.nav-brand {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem; font-weight: 400; letter-spacing: .05em;
+  color: var(--navy); transition: color .3s; white-space: nowrap;
+}
+nav.nav-scrolled .nav-brand { color: var(--navy); }
 .nav-links { display: flex; gap: 2.5rem; }
 .nav-links a {
   font-size: .73rem; letter-spacing: .18em; text-transform: uppercase;
@@ -50,12 +57,14 @@ nav.nav-scrolled {
   background: var(--navy);
 }
 #hero::before {
-  content: ''; position: absolute; inset: 0;
+  content: ''; position: absolute; top: -15%; bottom: -15%; left: 0; right: 0;
   background:
     radial-gradient(ellipse 70% 50% at 50% 0%, rgba(176,146,85,.12) 0%, transparent 70%),
     radial-gradient(ellipse 50% 40% at 80% 100%, rgba(176,146,85,.07) 0%, transparent 60%),
     url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1800&q=60') center/cover no-repeat;
   opacity: .18;
+  transform: translateY(var(--parallax-offset, 0));
+  will-change: transform;
 }
 .hero-logo-wrap {
   position: relative; z-index: 2;
@@ -405,4 +414,67 @@ footer span { color: var(--gold); }
     transition: none !important;
     animation: none !important;
   }
+  #hero::before { transform: none !important; }
+}
+
+/* ─── CHIPS MAX ─────────────────────────────────────────────── */
+@keyframes chipsShake {
+  0%,100% { transform: translateX(0); }
+  20%      { transform: translateX(-5px); }
+  60%      { transform: translateX(5px); }
+}
+.chip-row.chips-max { animation: chipsShake .35s ease; }
+
+/* ─── FLATPICKR CUSTOM ──────────────────────────────────────── */
+.flatpickr-calendar {
+  background: var(--navy) !important;
+  border: 1px solid rgba(176,146,85,.35) !important;
+  box-shadow: 0 12px 48px rgba(28,35,64,.6) !important;
+  border-radius: 4px !important;
+  font-family: 'Jost', sans-serif !important;
+}
+.flatpickr-calendar.arrowTop::before,
+.flatpickr-calendar.arrowTop::after { border-bottom-color: rgba(176,146,85,.35) !important; }
+.flatpickr-months .flatpickr-month,
+.flatpickr-weekdays,
+.flatpickr-weekday { background: var(--navy) !important; }
+.flatpickr-current-month {
+  font-family: 'Cormorant Garamond', serif !important;
+  font-size: 1.05rem !important; font-weight: 400 !important;
+  color: rgba(255,255,255,.9) !important;
+}
+.flatpickr-current-month select,
+.flatpickr-current-month input { color: rgba(255,255,255,.9) !important; }
+span.flatpickr-weekday { color: var(--gold) !important; font-size: .68rem !important; letter-spacing: .12em !important; }
+.flatpickr-day {
+  color: rgba(255,255,255,.75) !important; border-radius: 2px !important;
+  border-color: transparent !important;
+}
+.flatpickr-day:hover:not(.flatpickr-disabled) {
+  background: rgba(176,146,85,.18) !important; border-color: transparent !important;
+}
+.flatpickr-day.selected,
+.flatpickr-day.startRange,
+.flatpickr-day.endRange {
+  background: var(--gold) !important; border-color: var(--gold) !important;
+  color: var(--navy) !important; font-weight: 500 !important;
+}
+.flatpickr-day.inRange {
+  background: rgba(176,146,85,.15) !important;
+  border-color: transparent !important; box-shadow: none !important;
+  color: rgba(255,255,255,.75) !important;
+}
+.flatpickr-day.today:not(.selected) { border-color: rgba(176,146,85,.5) !important; }
+.flatpickr-day.flatpickr-disabled,
+.flatpickr-day.prevMonthDay,
+.flatpickr-day.nextMonthDay { color: rgba(255,255,255,.2) !important; }
+.flatpickr-prev-month svg,
+.flatpickr-next-month svg { fill: var(--gold-light) !important; }
+.flatpickr-prev-month:hover svg,
+.flatpickr-next-month:hover svg { fill: var(--gold) !important; }
+.numInput.cur-year { color: rgba(255,255,255,.9) !important; }
+
+/* ─── NAV RESPONSIVE ────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .nav-brand { display: none; }
 }

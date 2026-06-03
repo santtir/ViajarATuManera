@@ -1,4 +1,4 @@
-const WA_NUMERO = '5492284648973';
+const WA_NUMERO = '5492284322157';
 
 function goTo(selector) {
   const el = document.querySelector(selector);
@@ -12,6 +12,20 @@ function initNavScroll() {
   }, { passive: true });
 }
 
+function initParallax() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const hero = document.getElementById('hero');
+  if (!hero) return;
+  window.addEventListener('scroll', () => {
+    if (window.scrollY <= hero.offsetHeight) {
+      hero.style.setProperty('--parallax-offset', `${window.scrollY * 0.25}px`);
+    }
+  }, { passive: true });
+}
+
 window.goTo = goTo;
 
-document.addEventListener('DOMContentLoaded', initNavScroll);
+document.addEventListener('DOMContentLoaded', () => {
+  initNavScroll();
+  initParallax();
+});

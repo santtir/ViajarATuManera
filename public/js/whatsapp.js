@@ -1,8 +1,18 @@
+function _abrirEnlace(url) {
+  const a = document.createElement('a');
+  a.href = url;
+  a.target = '_blank';
+  a.rel = 'noopener noreferrer';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+
 function abrirWhatsAppGeneral() {
   const mensaje = encodeURIComponent(
     "Hola, me interesa conocer sobre sus paquetes de viaje ✈️",
   );
-  window.open(`https://wa.me/${WA_NUMERO}?text=${mensaje}`, "_blank");
+  _abrirEnlace(`https://wa.me/${WA_NUMERO}?text=${mensaje}`);
 }
 
 function compartirItinerarioPorWA(textoItinerario, metaInfo) {
@@ -16,7 +26,7 @@ function compartirItinerarioPorWA(textoItinerario, metaInfo) {
   const pie =
     `\n${"─".repeat(28)}\n` +
     `✈️ Generado por Viajar A Tu Manera\n` +
-    `📱 +54 9 2284 648973`;
+    `📱 +54 9 2284 322157`;
 
   let cuerpo = textoItinerario;
 
@@ -30,10 +40,7 @@ function compartirItinerarioPorWA(textoItinerario, metaInfo) {
   }
 
   const mensajeCompleto = encabezado + cuerpo + pie;
-  window.open(
-    `https://wa.me/${WA_NUMERO}?text=${encodeURIComponent(mensajeCompleto)}`,
-    "_blank",
-  );
+  _abrirEnlace(`https://wa.me/${WA_NUMERO}?text=${encodeURIComponent(mensajeCompleto)}`);
 }
 
 window.abrirWhatsAppGeneral = abrirWhatsAppGeneral;

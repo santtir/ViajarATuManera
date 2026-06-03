@@ -1,4 +1,5 @@
 const sel = { dest: [], tipo: [], pres: '' };
+const MAX_CHIPS = { dest: 3, tipo: 3 };
 let _pageToken = null;
 
 const SECCIONES_CONFIG = [
@@ -25,6 +26,13 @@ async function initPlanner() {
 // ─── Chips ────────────────────────────────────────────────────
 
 function pick(btn, group) {
+  const isSelected = btn.classList.contains('selected');
+  if (!isSelected && sel[group].length >= (MAX_CHIPS[group] || 5)) {
+    const row = btn.closest('.chip-row');
+    row.classList.add('chips-max');
+    setTimeout(() => row.classList.remove('chips-max'), 600);
+    return;
+  }
   btn.classList.toggle('selected');
   const v = btn.textContent.trim();
   if (btn.classList.contains('selected')) {
