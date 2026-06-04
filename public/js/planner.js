@@ -1,4 +1,4 @@
-const sel = { dest: [], tipo: [], pres: '' };
+const sel = { dest: [], tipo: [], pres: '', pax: '' };
 const MAX_CHIPS = { dest: 3, tipo: 3 };
 let _pageToken = null;
 
@@ -78,6 +78,7 @@ function validarFormulario() {
   if (sel.dest.length === 0) return 'Seleccioná al menos un destino.';
   if (sel.tipo.length === 0) return 'Seleccioná tu estilo de viaje.';
   if (!sel.pres) return 'Seleccioná un rango de presupuesto.';
+  if (!sel.pax) return 'Seleccioná la cantidad de personas.';
   return null;
 }
 
@@ -92,6 +93,7 @@ function buildUserPrompt() {
 - Destino: ${sel.dest.join(', ')}
 - Estilo: ${sel.tipo.join(', ')}
 - Duración: ${dur} días
+- Personas: ${sel.pax}
 - Presupuesto por persona: ${sel.pres}
 ${sueno ? `- Experiencia que siempre soñé: ${sueno}` : ''}
 
