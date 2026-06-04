@@ -63,13 +63,22 @@ export default async function handler(req, res) {
 
   // 4. Validar body
   const { messages } = req.body;
-  if (!messages || !Array.isArray(messages)) {
+  if (!messages || !Array.isArray(messages) || messages.length === 0) {
     return res.status(400).json({ error: 'messages array is required' });
   }
 
-  // 5. Validar longitud del input
-  const userContent = messages.find(m => m.role === 'user')?.content || '';
-  if (typeof userContent !== 'string' || userContent.length > MAX_INPUT_CHARS) {
+  // 5. Extraer ÚNICAMENTE el último mensaje de rol "user" con contenido string.
+  //    Descartamos el array completo del cliente para evitar inyección de roles
+  //    (mensajes falsos con role: "assistant" que intenten alterar el contexto).
+  const lastUserMsg = messages
+    .filter(m => m && typeof m === 'object' && m.role === 'user' && typeof m.content === 'string')
+    .pop();
+
+  if (!lastUserMsg) {
+    return res.status(400).json({ error: 'No se encontró mensaje de usuario válido' });
+  }
+
+  if (lastUserMsg.content.length > MAX_INPUT_CHARS) {
     return res.status(400).json({ error: 'Input demasiado largo' });
   }
 
@@ -85,7 +94,7 @@ export default async function handler(req, res) {
         model: 'claude-sonnet-4-6',
         max_tokens: 1500,
         system: SYSTEM_PROMPT,
-        messages
+        messages: [{ role: 'user', content: lastUserMsg.content }]
       })
     });
 

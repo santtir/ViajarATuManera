@@ -214,6 +214,11 @@ function renderItinerario(secciones, meta) {
     card.setAttribute('data-delay', String(index * 100));
 
     const contenidoHTML = seccion.contenido
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#x27;')
       .replace(/\n\n/g, '</p><p>')
       .replace(/\n/g, '<br>');
 

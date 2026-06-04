@@ -1,3 +1,5 @@
+const COTIZ_COOLDOWN_MS = 2 * 60 * 1000; // 2 minutos entre envíos
+
 function enviarCotizacion() {
   const nombre = document.getElementById('cNombre').value.trim();
   const email  = document.getElementById('cEmail').value.trim();
@@ -9,6 +11,13 @@ function enviarCotizacion() {
 
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     mostrarErrorCotiz('Por favor ingresá un correo electrónico válido.');
+    return;
+  }
+
+  const lastSent = Number(sessionStorage.getItem('cotiz_last_sent') || 0);
+  if (Date.now() - lastSent < COTIZ_COOLDOWN_MS) {
+    const restanteSeg = Math.ceil((COTIZ_COOLDOWN_MS - (Date.now() - lastSent)) / 1000);
+    mostrarErrorCotiz(`Por favor esperá ${restanteSeg} segundos antes de enviar otra solicitud.`);
     return;
   }
 
@@ -29,6 +38,7 @@ function enviarCotizacion() {
     .then(res => res.json())
     .then(data => {
       if (data.success === 'true' || data.success === true) {
+        sessionStorage.setItem('cotiz_last_sent', String(Date.now()));
         mostrarExitoCotiz(email);
       } else {
         throw new Error('Formsubmit rechazó el envío');
