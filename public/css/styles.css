@@ -48,6 +48,56 @@ nav.nav-scrolled .nav-brand { color: var(--navy); }
 .nav-links a:hover { color: var(--gold); }
 .nav-links a:hover::after { width: 100%; }
 
+/* ─── NAV HAMBURGER ─────────────────────────────────────────── */
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px 4px;
+}
+.nav-hamburger span {
+  display: block;
+  width: 22px;
+  height: 1.5px;
+  background: var(--navy);
+  transition: transform 0.35s ease, opacity 0.25s ease;
+  transform-origin: center;
+}
+nav.menu-open .nav-hamburger span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+nav.menu-open .nav-hamburger span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+nav.menu-open .nav-hamburger span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+/* ─── NAV MOBILE MENU ───────────────────────────────────────── */
+.nav-mobile-menu {
+  position: absolute;
+  top: 100%; left: 0; right: 0;
+  background: rgba(255,255,255,0.98);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(176,146,85,.2);
+  box-shadow: 0 8px 32px rgba(28,35,64,.1);
+  display: flex;
+  flex-direction: column;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.3s ease;
+  pointer-events: none;
+}
+nav.menu-open .nav-mobile-menu { max-height: 300px; opacity: 1; pointer-events: auto; }
+.nav-mobile-menu a {
+  font-size: .73rem; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--navy); text-decoration: none;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid rgba(176,146,85,.1);
+  transition: color .2s, background .2s, padding-left .2s;
+}
+.nav-mobile-menu a:last-child { border-bottom: none; }
+.nav-mobile-menu a:hover { color: var(--gold); padding-left: 2rem; background: rgba(176,146,85,.04); }
+
 /* ─── HERO ──────────────────────────────────────────────────── */
 #hero {
   min-height: 100vh;
@@ -385,7 +435,9 @@ footer span { color: var(--gold); }
 /* ─── RESPONSIVE ────────────────────────────────────────────── */
 @media (max-width: 640px) {
   nav { padding: .8rem 1.5rem; }
+  .nav-logo { height: 48px; }
   .nav-links { display: none; }
+  .nav-hamburger { display: flex; }
   #destinos, #planificador, #cotizacion { padding: 3.5rem 1.2rem; }
   .form-grid { grid-template-columns: 1fr; }
   .form-card { padding: 1.4rem; }
@@ -472,6 +524,3 @@ span.flatpickr-weekday { color: var(--gold) !important; font-size: .68rem !impor
 .numInput.cur-year { color: rgba(255,255,255,.9) !important; }
 
 /* ─── NAV RESPONSIVE ────────────────────────────────────────── */
-@media (max-width: 640px) {
-  .nav-brand { display: none; }
-}
