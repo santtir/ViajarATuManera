@@ -213,6 +213,54 @@ nav.menu-open .nav-mobile-menu { max-height: 300px; opacity: 1; pointer-events: 
 .destino-desc { font-size: .8rem; color: rgba(255,255,255,.75); line-height: 1.5; max-height: 0; overflow: hidden; transition: max-height .4s ease; }
 .destino-card:hover .destino-desc { max-height: 80px; }
 
+/* ─── DESTINO POPOVER ───────────────────────────────────────── */
+.destino-popover {
+  position: fixed;
+  z-index: 500;
+  width: 300px;
+  background: var(--white);
+  border: 1px solid rgba(176,146,85,.22);
+  border-radius: 2px;
+  padding: 1.6rem 1.5rem;
+  box-shadow: 0 24px 60px rgba(28,35,64,.16), 0 4px 16px rgba(28,35,64,.08);
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(10px);
+  transition: opacity .22s ease, transform .22s ease;
+}
+.destino-popover.dp-left { transform: translateX(-10px); }
+.destino-popover.visible { opacity: 1; transform: translateX(0); pointer-events: auto; }
+.destino-popover::before {
+  content: ''; position: absolute; left: -8px; top: 24px;
+  border: 8px solid transparent;
+  border-right-color: rgba(176,146,85,.25); border-left: none;
+}
+.destino-popover::after {
+  content: ''; position: absolute; left: -7px; top: 24px;
+  border: 8px solid transparent;
+  border-right-color: var(--white); border-left: none;
+}
+.destino-popover.dp-left::before {
+  left: auto; right: -8px;
+  border-right: none; border-left-color: rgba(176,146,85,.25);
+}
+.destino-popover.dp-left::after {
+  left: auto; right: -7px;
+  border-right: none; border-left-color: var(--white);
+}
+.dp-nombre {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.35rem; font-weight: 400;
+  color: var(--navy); margin-bottom: .75rem;
+}
+.dp-resena { font-size: .82rem; color: var(--dark); line-height: 1.72; margin-bottom: .9rem; }
+.dp-sep { width: 28px; height: 1px; background: var(--gold); margin-bottom: .9rem; }
+.dp-dato-label {
+  font-size: .62rem; letter-spacing: .2em;
+  text-transform: uppercase; color: var(--gold); margin-bottom: .35rem;
+}
+.dp-dato { font-size: .79rem; color: var(--muted); line-height: 1.65; font-style: italic; }
+
 /* ─── PLANIFICADOR ──────────────────────────────────────────── */
 #planificador { padding: 5.5rem 3rem; background: var(--cream); }
 .plan-inner { max-width: 840px; margin: 0 auto; }
@@ -446,6 +494,15 @@ footer span { color: var(--gold); }
   .scroll-line::after { height: 28px; }
   .destinos-grid { grid-template-columns: 1fr; }
   .destino-extra { display: none; }
+  .destino-popover {
+    width: 100% !important; left: 0 !important; right: 0 !important;
+    bottom: 0 !important; top: auto !important;
+    border-radius: 10px 10px 0 0; border-left: none; border-right: none; border-bottom: none;
+    transform: translateY(20px) !important;
+    max-height: 55vh; overflow-y: auto;
+  }
+  .destino-popover.visible { transform: translateY(0) !important; }
+  .destino-popover::before, .destino-popover::after { display: none; }
   .itinerary-card { flex-direction: column; gap: .5rem; }
   .result-actions { flex-direction: column; }
 }
