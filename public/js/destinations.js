@@ -114,92 +114,6 @@ const DESTINOS_FALLBACK = [
 const MOSTRAR_DESKTOP = 8;
 const PERIODO_DIAS = 5;
 
-// ─── Popover singleton ──────────────────────────────────────────
-let destPopover = null;
-let destHideTimer = null;
-let destActiveId = null;
-
-function crearDestPopover() {
-  const p = document.createElement('div');
-  p.className = 'destino-popover';
-  p.setAttribute('role', 'tooltip');
-  p.innerHTML = `
-    <div class="dp-nombre"></div>
-    <p class="dp-resena"></p>
-    <div class="dp-sep"></div>
-    <div class="dp-dato-label">¿Sabías que…?</div>
-    <p class="dp-dato"></p>
-  `;
-  document.body.appendChild(p);
-  p.addEventListener('mouseenter', () => clearTimeout(destHideTimer));
-  p.addEventListener('mouseleave', () => ocultarDestPopover(100));
-  return p;
-}
-
-function posicionarDestPopover(card) {
-  const rect = card.getBoundingClientRect();
-  const vw = window.innerWidth;
-  const pw = 300;
-  const gap = 14;
-
-  destPopover.classList.remove('dp-left');
-
-  if (rect.right + gap + pw < vw - 16) {
-    destPopover.style.left = (rect.right + gap) + 'px';
-  } else {
-    destPopover.style.left = (rect.left - gap - pw) + 'px';
-    destPopover.classList.add('dp-left');
-  }
-
-  const top = Math.max(90, Math.min(rect.top, window.innerHeight - 380));
-  destPopover.style.top = top + 'px';
-}
-
-function mostrarDestPopover(card, d) {
-  if (!destPopover) destPopover = crearDestPopover();
-  clearTimeout(destHideTimer);
-  destActiveId = d.id;
-
-  destPopover.querySelector('.dp-nombre').textContent = d.nombre;
-  destPopover.querySelector('.dp-resena').textContent = d.resena || d.descripcion;
-
-  const hasDato = !!d.dato_curioso;
-  destPopover.querySelector('.dp-sep').style.display = hasDato ? '' : 'none';
-  destPopover.querySelector('.dp-dato-label').style.display = hasDato ? '' : 'none';
-  destPopover.querySelector('.dp-dato').style.display = hasDato ? '' : 'none';
-  if (hasDato) destPopover.querySelector('.dp-dato').textContent = d.dato_curioso;
-
-  destPopover.classList.remove('visible');
-  posicionarDestPopover(card);
-  requestAnimationFrame(() => destPopover.classList.add('visible'));
-}
-
-function ocultarDestPopover(delay = 120) {
-  clearTimeout(destHideTimer);
-  destHideTimer = setTimeout(() => {
-    destActiveId = null;
-    if (destPopover) destPopover.classList.remove('visible');
-  }, delay);
-}
-
-window.addEventListener('scroll', () => {
-  if (destPopover?.classList.contains('visible')) {
-    destPopover.classList.remove('visible');
-    destActiveId = null;
-  }
-}, { passive: true });
-
-document.addEventListener('touchstart', (e) => {
-  if (
-    destPopover?.classList.contains('visible') &&
-    !destPopover.contains(e.target) &&
-    !e.target.closest('.destino-card')
-  ) {
-    ocultarDestPopover(0);
-  }
-}, { passive: true });
-
-// ─── Core logic ─────────────────────────────────────────────────
 function seleccionarDestinosPeriodo(destinos) {
   const msPorPeriodo = PERIODO_DIAS * 24 * 60 * 60 * 1000;
   const periodoIndex = Math.floor(Date.now() / msPorPeriodo);
@@ -236,6 +150,12 @@ function renderizarDestinos(destinos) {
     card.setAttribute('data-animate', 'fade-up');
     card.setAttribute('data-delay', String(Math.min(index * 100, 500)));
 
+    const datoHtml = d.dato_curioso ? `
+      <div class="dhp-sep"></div>
+      <div class="dhp-dato-label">¿Sabías que…?</div>
+      <p class="dhp-dato">${d.dato_curioso}</p>
+    ` : '';
+
     card.innerHTML = `
       <img
         src="${d.imagen_url}"
@@ -246,22 +166,14 @@ function renderizarDestinos(destinos) {
       <div class="destino-overlay">
         <div class="destino-region">${d.region}</div>
         <div class="destino-name">${d.nombre}</div>
-        <div class="destino-desc">${d.descripcion}</div>
+      </div>
+      <div class="destino-hover-panel">
+        <div class="dhp-name">${d.nombre}</div>
+        <div class="dhp-region">${d.region}</div>
+        <p class="dhp-resena">${d.resena || d.descripcion}</p>
+        ${datoHtml}
       </div>
     `;
-
-    card.addEventListener('mouseenter', () => mostrarDestPopover(card, d));
-    card.addEventListener('mouseleave', () => ocultarDestPopover());
-
-    card.addEventListener('click', () => {
-      if (window.matchMedia('(hover: none)').matches) {
-        if (destActiveId === d.id && destPopover?.classList.contains('visible')) {
-          ocultarDestPopover(0);
-        } else {
-          mostrarDestPopover(card, d);
-        }
-      }
-    });
 
     grid.appendChild(card);
   });
