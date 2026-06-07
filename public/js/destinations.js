@@ -18,7 +18,7 @@ const DESTINOS_FALLBACK = [
     descripcion: 'Una isla sin autos en el norte de Yucatán, con arena blanca suave y flamencos rosados entre los bañistas.',
     resena: 'Una isla sin autos, sin semáforos y sin prisas en el norte de Yucatán. Holbox es arena blanca suave, aguas cálidas y flamencos rosados que se pasean entre los bañistas.',
     dato_curioso: 'Cada verano, el tiburón ballena —el pez más grande del mundo— visita las aguas de Holbox para alimentarse de plancton.',
-    imagen_url: 'https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?w=700&q=80', tags: ['playa','naturaleza'] },
+    imagen_url: '/images/destinos/holbox.jpg', tags: ['playa','naturaleza'] },
   { id: 'maragogi', nombre: 'Maragogi', region: 'Brasil · Noreste',
     descripcion: "El 'Caribe brasileño': piscinas naturales de agua cristalina formadas por arrecifes de coral.",
     resena: "Conocida como el 'Caribe brasileño', Maragogi ofrece piscinas naturales de agua cristalina formadas por arrecifes de coral a pocos metros de la orilla. Un tesoro poco masificado del noreste de Brasil.",
