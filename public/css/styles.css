@@ -199,19 +199,42 @@ nav.menu-open .nav-mobile-menu { max-height: 300px; opacity: 1; pointer-events: 
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 .destino-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(28,35,64,.16); }
-.destino-card img { width: 100%; height: 300px; object-fit: cover; display: block; transition: transform .7s ease; }
+.destino-card img { width: 100%; height: 400px; object-fit: cover; display: block; transition: transform .7s ease; }
 .destino-card:hover img { transform: scale(1.07); }
 .destino-overlay {
   position: absolute; inset: 0;
   background: linear-gradient(to top, rgba(28,35,64,.88) 0%, transparent 55%);
   display: flex; flex-direction: column; justify-content: flex-end; padding: 1.5rem;
-  transition: background .3s;
+  transition: opacity .3s ease;
 }
-.destino-card:hover .destino-overlay { background: linear-gradient(to top, rgba(28,35,64,.93) 0%, rgba(28,35,64,.15) 55%); }
+.destino-card:hover .destino-overlay { opacity: 0; }
 .destino-name { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 400; color: #fff; margin-bottom: .2rem; }
 .destino-region { font-size: .68rem; letter-spacing: .15em; text-transform: uppercase; color: var(--gold-light); margin-bottom: .5rem; }
-.destino-desc { font-size: .8rem; color: rgba(255,255,255,.75); line-height: 1.5; max-height: 0; overflow: hidden; transition: max-height .4s ease; }
-.destino-card:hover .destino-desc { max-height: 80px; }
+
+/* ─── HOVER PANEL ───────────────────────────────────────────── */
+.destino-hover-panel {
+  position: absolute; inset: 0;
+  background: rgba(28,35,64,.92);
+  display: flex; flex-direction: column;
+  padding: 1.5rem; overflow: hidden;
+  opacity: 0; transition: opacity .3s ease;
+}
+.destino-card:hover .destino-hover-panel { opacity: 1; }
+.dhp-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem; font-weight: 400; color: #fff; margin-bottom: .15rem;
+}
+.dhp-region {
+  font-size: .68rem; letter-spacing: .15em; text-transform: uppercase;
+  color: var(--gold-light); margin-bottom: .9rem;
+}
+.dhp-resena { font-size: .8rem; color: rgba(255,255,255,.85); line-height: 1.72; margin-bottom: .75rem; }
+.dhp-sep { width: 28px; height: 1px; background: var(--gold); margin-bottom: .65rem; }
+.dhp-dato-label {
+  font-size: .62rem; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--gold-light); margin-bottom: .3rem;
+}
+.dhp-dato { font-size: .78rem; color: rgba(255,255,255,.65); line-height: 1.62; font-style: italic; }
 
 /* ─── PLANIFICADOR ──────────────────────────────────────────── */
 #planificador { padding: 5.5rem 3rem; background: var(--cream); }
@@ -396,6 +419,11 @@ textarea:focus { border-color: var(--gold); }
 #overlay.on { display: flex; }
 .plane-anim { font-size: 3rem; animation: flyPlane 1.6s ease-in-out infinite alternate; }
 .ov-title { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 300; }
+.ov-dots { display: flex; gap: .45rem; margin-top: .3rem; }
+.ov-dots span { width: 7px; height: 7px; background: var(--gold-light); border-radius: 50%; animation: dotPulse 1.4s ease-in-out infinite; }
+.ov-dots span:nth-child(2) { animation-delay: .22s; }
+.ov-dots span:nth-child(3) { animation-delay: .44s; }
+.ov-warning { font-size: .73rem; color: rgba(255,255,255,.5); letter-spacing: .04em; margin-top: .75rem; }
 .spinner { width: 17px; height: 17px; border: 2px solid rgba(255,255,255,.3); border-top-color: #fff; border-radius: 50%; animation: spin .7s linear infinite; }
 
 /* ─── FOOTER ────────────────────────────────────────────────── */
@@ -407,6 +435,7 @@ footer span { color: var(--gold); }
 @keyframes scrollBar { 0%  { transform: scaleY(0); transform-origin: top; } 50% { transform: scaleY(1); transform-origin: top; } 51% { transform: scaleY(1); transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
 @keyframes spin      { to { transform: rotate(360deg); } }
 @keyframes flyPlane  { from { transform: translateX(-20px) rotate(-8deg); } to { transform: translateX(20px) rotate(4deg); } }
+@keyframes dotPulse  { 0%, 80%, 100% { opacity: .2; transform: scale(.75); } 40% { opacity: 1; transform: scale(1); } }
 
 /* ─── ANIMACIONES DE SCROLL ─────────────────────────────────── */
 [data-animate="fade-up"] {

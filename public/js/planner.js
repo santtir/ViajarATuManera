@@ -103,7 +103,7 @@ Creá un itinerario COMPLETO con estas secciones exactas:
 [Por qué es perfecto. 2-3 oraciones.]
 
 🗓️ ITINERARIO DÍA A DÍA
-[Día 1: ..., Día 2: ..., etc. Específico con lugares y actividades.]
+[Formato obligatorio: "Día N — Ciudad o lugar principal: descripción de actividades." Ejemplo: "Día 1 — Roma: Llegada, paseo por el centro histórico..." Específico con lugares y actividades.]
 
 ✨ EXPERIENCIA ESTRELLA
 [Una vivencia única que recordará toda la vida. 2-3 oraciones.]
@@ -244,9 +244,12 @@ function renderItinerario(secciones, meta) {
     .map(s => `${s.emoji} ${s.titulo.toUpperCase()}\n${s.contenido}`)
     .join('\n\n');
 
-  window._itinerarioMeta  = meta;
-  window._itinerarioDest  = sel.dest.map(d => d.replace(/^\S+\s/, '')).join(', ');
+  window._itinerarioMeta    = meta;
+  window._itinerarioDest    = sel.dest.map(d => d.replace(/^\S+\s/, '')).join(', ');
   window._itinerarioResumen = secciones.find(s => s.titulo === 'Itinerario Día a Día')?.contenido || '';
+  window._itinerarioPax     = sel.pax;
+  window._itinerarioPres    = sel.pres;
+  window._itinerarioTipo    = [...sel.tipo];
 }
 
 function buildMeta() {

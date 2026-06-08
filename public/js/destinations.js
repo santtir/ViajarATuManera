@@ -1,69 +1,113 @@
 const DESTINOS_FALLBACK = [
   { id: 'maldivas', nombre: 'Maldivas', region: 'Océano Índico',
     descripcion: 'Bungalows sobre el agua turquesa y arrecifes de coral: la imagen más icónica del paraíso tropical.',
+    resena: 'Un archipiélago de atolones de coral en el océano Índico donde el agua turquesa y los bungalows sobre el mar crean la imagen más icónica del paraíso tropical. Ideal para parejas y amantes del buceo.',
+    dato_curioso: 'Es el país más plano del mundo, con una altitud máxima de apenas 2,4 metros sobre el nivel del mar.',
     imagen_url: 'https://images.unsplash.com/photo-1514282401047-d79a71a590e8?w=700&q=80', tags: ['lujo','playa','romántico'] },
   { id: 'bali', nombre: 'Bali', region: 'Indonesia · Asia',
     descripcion: "La 'Isla de los Dioses' combina templos milenarios, arrozales en terrazas y una espiritualidad única.",
+    resena: "La 'Isla de los Dioses' combina templos milenarios entre arrozales en terrazas, playas volcánicas y una espiritualidad que se siente en cada rincón. Un destino que transforma a quienes lo visitan.",
+    dato_curioso: 'En Bali se celebran más de 5.000 ceremonias religiosas al año, muchas de ellas en plena calle.',
     imagen_url: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=700&q=80', tags: ['espiritual','naturaleza','cultura'] },
   { id: 'santorini', nombre: 'Santorini', region: 'Grecia · Europa',
     descripcion: 'Cúpulas azules sobre acantilados blancos y atardeceres desde Oia que son, literalmente, mágicos.',
+    resena: 'Las icónicas cúpulas azules sobre acantilados blancos frente al Mar Egeo hacen de Santorini uno de los paisajes más fotografiados del planeta. Los atardeceres desde Oia son, literalmente, mágicos.',
+    dato_curioso: 'La isla es en realidad el cráter de un volcán submarino que explotó hace 3.600 años, uno de los mayores en la historia humana.',
     imagen_url: 'https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?w=700&q=80', tags: ['romántico','playa','lujo'] },
   { id: 'holbox', nombre: 'Holbox', region: 'México · Caribe',
     descripcion: 'Una isla sin autos en el norte de Yucatán, con arena blanca suave y flamencos rosados entre los bañistas.',
-    imagen_url: 'https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?w=700&q=80', tags: ['playa','naturaleza'] },
+    resena: 'Una isla sin autos, sin semáforos y sin prisas en el norte de Yucatán. Holbox es arena blanca suave, aguas cálidas y flamencos rosados que se pasean entre los bañistas.',
+    dato_curioso: 'Cada verano, el tiburón ballena —el pez más grande del mundo— visita las aguas de Holbox para alimentarse de plancton.',
+    imagen_url: '/images/destinos/holbox.jpg', tags: ['playa','naturaleza'] },
   { id: 'maragogi', nombre: 'Maragogi', region: 'Brasil · Noreste',
     descripcion: "El 'Caribe brasileño': piscinas naturales de agua cristalina formadas por arrecifes de coral.",
+    resena: "Conocida como el 'Caribe brasileño', Maragogi ofrece piscinas naturales de agua cristalina formadas por arrecifes de coral a pocos metros de la orilla. Un tesoro poco masificado del noreste de Brasil.",
+    dato_curioso: "Sus piscinas naturales, llamadas 'galés', solo son accesibles con la marea alta y guía autorizado para proteger el ecosistema.",
     imagen_url: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=700&q=80', tags: ['playa','naturaleza'] },
   { id: 'maya-bay', nombre: 'Maya Bay', region: 'Tailandia · Asia',
     descripcion: 'Acantilados de piedra caliza en las islas Phi Phi, hoy más radiante que nunca tras su recuperación.',
+    resena: 'Rodeada de imponentes acantilados de piedra caliza en las islas Phi Phi, esta bahía se hizo mundialmente famosa por la película La Playa. Hoy, tras años de cierre para recuperarse, luce más radiante que nunca.',
+    dato_curioso: 'Maya Bay cerró completamente al turismo de 2018 a 2022 para que el ecosistema marino se regenerara, y los arrecifes de coral volvieron en tiempo récord.',
     imagen_url: 'https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=700&q=80', tags: ['playa','aventura'] },
   { id: 'praga', nombre: 'Praga', region: 'República Checa · Europa',
     descripcion: 'Un cuento de hadas medieval: gótico, barroco y art nouveau en un centro histórico Patrimonio UNESCO.',
+    resena: "La 'Ciudad de las Cien Torres' es un cuento de hadas medieval hecho realidad. Su centro histórico, declarado Patrimonio UNESCO, mezcla gótico, barroco y art nouveau en un conjunto que parece sacado de un libro ilustrado.",
+    dato_curioso: 'El Reloj Astronómico de Praga, instalado en 1410, es el tercero más antiguo del mundo y sigue funcionando con su mecanismo original.',
     imagen_url: 'https://images.unsplash.com/photo-1541849546-216549ae216d?w=700&q=80', tags: ['historia','cultura'] },
   { id: 'costa-amalfitana', nombre: 'Costa Amalfitana', region: 'Italia · Europa',
     descripcion: 'Pueblos de colores pegados a acantilados, limoneros perfumados y la Italia más dramática y bella.',
+    resena: 'Pueblos de colores pegados a los acantilados sobre el Mar Tirreno, limoneros perfumando el aire y carreteras que cortan la respiración. La Costa Amalfitana es Italia en su versión más dramática y bella.',
+    dato_curioso: 'El famoso limoncello nació aquí, gracias a los enormes limones sfusato amalfitano, una variedad exclusiva de esta costa que puede pesar hasta un kilo.',
     imagen_url: 'https://images.unsplash.com/photo-1555990793-da11153b6c89?w=700&q=80', tags: ['romántico','gastronomía'] },
   { id: 'bayahibe', nombre: 'Bayahibe', region: 'República Dominicana · Caribe',
     descripcion: 'Playas vírgenes del Caribe auténtico: Playa Dominicus e isla Saona en el sureste dominicano.',
+    resena: 'Un pequeño pueblo pesquero en el sureste de República Dominicana que guarda algunas de las playas más vírgenes del Caribe, como Playa Dominicus e isla Saona. Ideal para quienes buscan el Caribe auténtico.',
+    dato_curioso: 'Frente a Bayahibe se encuentra el Parque Nacional del Este, hogar de más de 500 especies de flora y fauna y de pictografías taínas con siglos de antigüedad.',
     imagen_url: 'https://images.unsplash.com/photo-1504893524553-b855bce32c67?w=700&q=80', tags: ['playa','auténtico'] },
   { id: 'islandia', nombre: 'Auroras en Islandia', region: 'Islandia · Europa',
     descripcion: 'La aurora boreal bailando sobre glaciares y géiseres: luces verdes, violetas y rosas en el cielo.',
+    resena: 'Ver la aurora boreal bailar sobre glaciares y géiseres en Islandia es una de las experiencias más sobrecogedoras que existe. Un espectáculo de luces verde, violeta y rosa que parece una pintura viva en el cielo.',
+    dato_curioso: 'Los vikingos creían que las auroras eran el reflejo de los escudos de las Valquirias cabalgando hacia el Valhalla.',
     imagen_url: 'https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=700&q=80', tags: ['naturaleza','único'] },
   { id: 'japon', nombre: 'Japón', region: 'Asia',
     descripcion: 'Tradición milenaria y tecnología futurista en armonía: de los templos de Kioto a los neones de Tokio.',
+    resena: 'Un país donde la tradición milenaria y la tecnología del futuro conviven en perfecta armonía. De los templos de Kioto a los neones de Tokio, Japón es un destino que desafía todos los esquemas y enamora para siempre.',
+    dato_curioso: 'Japón tiene más de 5,5 millones de máquinas expendedoras —una cada 23 personas— donde se puede comprar desde ramen caliente hasta corbatas.',
     imagen_url: 'https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=700&q=80', tags: ['cultura','gastronomía'] },
   { id: 'capadocia', nombre: 'Capadocia', region: 'Turquía · Asia',
     descripcion: 'Chimeneas de hadas, iglesias rupestres y el vuelo en globo al amanecer más icónico del mundo.',
+    resena: 'Un paisaje de otro planeta en el centro de Turquía, con chimeneas de hadas, iglesias rupestres y ciudades subterráneas talladas en la roca volcánica. El vuelo en globo al amanecer es una de las imágenes más icónicas del mundo.',
+    dato_curioso: 'Bajo Capadocia existe una ciudad subterránea llamada Derinkuyu que llegó a albergar a 20.000 personas y bajaba hasta 85 metros de profundidad.',
     imagen_url: 'https://images.unsplash.com/photo-1533591380348-14193f1de18f?w=700&q=80', tags: ['único','aventura'] },
   { id: 'vietnam', nombre: 'Vietnam', region: 'Asia · Sudeste',
     descripcion: 'La bahía de Halong, arrozales de Sapa, el casco antiguo de Hoi An y la energía de Ho Chi Minh.',
+    resena: 'Un país largo y delgado que lo tiene todo: la bahía de Halong llena de islotes de piedra caliza, los arrozales de Sapa, el casco antiguo de Hoi An y la energía inagotable de Ciudad Ho Chi Minh.',
+    dato_curioso: 'Vietnam es el segundo mayor exportador de café del mundo, por encima de Colombia. Y su café con leche condensada es, sin duda, el mejor del planeta.',
     imagen_url: 'https://images.unsplash.com/photo-1528181304800-259b08848526?w=700&q=80', tags: ['cultura','naturaleza'] },
   { id: 'galapagos', nombre: 'Galápagos', region: 'Ecuador · Pacífico',
     descripcion: 'El laboratorio vivo de Darwin: iguanas marinas, pingüinos y tortugas gigantes sin miedo a los humanos.',
+    resena: "El laboratorio vivo que inspiró a Darwin. En estas islas del Pacífico ecuatoriano, las iguanas marinas, los pingüinos y las tortugas gigantes conviven con los humanos sin ningún miedo, como si el tiempo se hubiera detenido.",
+    dato_curioso: "Las tortugas gigantes de Galápagos pueden vivir más de 170 años. 'Lonesome George', la última de su subespecie, murió en 2012 con más de 100 años.",
     imagen_url: '/images/destinos/galapagos.jpg', tags: ['naturaleza','fauna'] },
   { id: 'nueva-york', nombre: 'Nueva York', region: 'Estados Unidos · América',
     descripcion: 'Arte, gastronomía, cultura y energía pura desde el skyline de Manhattan hasta los mercados de Brooklyn.',
+    resena: 'La ciudad que nunca duerme merece todos sus clichés. Desde el skyline de Manhattan hasta los mercados de Brooklyn, Nueva York es arte, gastronomía, cultura y energía pura en cada esquina.',
+    dato_curioso: 'Bajo las calles de Nueva York hay 245 km de túneles de metro, y en sus andenes viven colonias de ratas que ya tienen varios siglos de historia en la ciudad.',
     imagen_url: 'https://images.unsplash.com/photo-1534430480872-3498386e7856?w=700&q=80', tags: ['cultura','moderno'] },
   { id: 'miami', nombre: 'Miami', region: 'Estados Unidos · América',
     descripcion: 'Sol, arte y ritmo latino entre Miami Beach, Wynwood, Little Havana y la arquitectura art déco.',
+    resena: 'Sol, arte y ritmo latino en la costa sur de Florida. Miami Beach, Wynwood, Little Havana y la arquitectura art déco de South Beach convierten a esta ciudad en uno de los destinos más vibrantes de América.',
+    dato_curioso: 'Miami es la única ciudad de EE.UU. fundada por una mujer: Julia Tuttle, en 1896, quien convenció al magnate Henry Flagler de extender su ferrocarril hasta allí enviándole flores frescas tras una helada devastadora.',
     imagen_url: 'https://images.unsplash.com/photo-1533106497176-45ae19e68ba2?w=700&q=80', tags: ['playa','cultura'] },
   { id: 'patagonia', nombre: 'Patagonia Argentina', region: 'Argentina · Sudamérica',
     descripcion: 'Glaciares del Perito Moreno, torres del Chaltén y lagos turquesa en el fin del mundo.',
+    resena: 'El fin del mundo en todo su esplendor. Los glaciares del Perito Moreno, las torres del Chaltén y los lagos turquesa del Nahuel Huapi hacen de la Patagonia uno de los paisajes más impresionantes del planeta.',
+    dato_curioso: 'El glaciar Perito Moreno es uno de los pocos del mundo que sigue creciendo en lugar de retroceder, avanzando entre 2 y 3 metros por día.',
     imagen_url: '/images/destinos/patagonia.jpg', tags: ['naturaleza','aventura'] },
   { id: 'salta-jujuy', nombre: 'Salta y Jujuy', region: 'Argentina · Noroeste',
     descripcion: 'La Quebrada de Humahuaca, montañas ocres y púrpuras, y la cultura andina viva del norte argentino.',
+    resena: 'El norte argentino es puro color: la Quebrada de Humahuaca con sus montañas ocres y púrpuras, la Puna infinita, los pueblos coloniales y la cultura andina viva hacen de esta región un destino único e irrepetible.',
+    dato_curioso: 'El Cerro de los Siete Colores en Purmamarca es un fenómeno geológico natural: cada capa de color corresponde a un mineral distinto acumulado durante millones de años.',
     imagen_url: '/images/destinos/saltayjujuy.jpg', tags: ['cultura','naturaleza'] },
   { id: 'cruceros', nombre: 'Cruceros', region: 'Mediterráneo · Caribe · Fiordos',
     descripcion: 'Un hotel de lujo que cambia de paisaje cada día: Mediterráneo, Caribe o fiordos noruegos.',
+    resena: 'Un hotel de lujo que cambia de paisaje cada día. Los cruceros combinan la comodidad de un resort con la emoción de despertar en un nuevo puerto, ya sea en el Mediterráneo, el Caribe o los fiordos noruegos.',
+    dato_curioso: 'Los cruceros más grandes del mundo, de la clase Icon de Royal Caribbean, son tan enormes que tienen parques de atracciones, pistas de patinaje sobre hielo, canchas de baloncesto y hasta una playa interior a bordo.',
     imagen_url: 'https://images.unsplash.com/photo-1548574505-5e239809ee19?w=700&q=80', tags: ['lujo','familia'] },
   { id: 'rio-de-janeiro', nombre: 'Río de Janeiro', region: 'Brasil · Sudamérica',
     descripcion: 'El Cristo Redentor, Copacabana, Ipanema y el carnaval más famoso del planeta: la Cidade Maravilhosa.',
+    resena: "La 'Cidade Maravilhosa' vive entre montañas y mar con una energía única en el mundo. El Cristo Redentor sobre el Corcovado, las playas de Copacabana e Ipanema y el carnaval más famoso del planeta hacen de Río una experiencia que entra por todos los sentidos.",
+    dato_curioso: 'El Pan de Azúcar, el icónico morro que custodia la bahía de Guanabara, recibió ese nombre porque su forma recuerda exactamente a los moldes cónicos que se usaban para refinar azúcar en el siglo XVI.',
     imagen_url: 'https://images.unsplash.com/photo-1483729558449-99ef09a8c325?w=700&q=80', tags: ['cultura','playa'] },
   { id: 'barcelona', nombre: 'Barcelona', region: 'España · Europa',
     descripcion: 'Gaudí en cada rincón —Sagrada Família, Park Güell, Casa Batlló— y una ciudad que lo tiene todo.',
+    resena: "La capital catalana es una ciudad donde la arquitectura es arte callejero. Gaudí dejó su huella en cada rincón —la Sagrada Família, el Park Güell, la Casa Batlló— mientras las Ramblas, el barrio Gótico y la playa completan una ciudad que lo tiene absolutamente todo.",
+    dato_curioso: "La Sagrada Família lleva más de 140 años en construcción y todavía no está terminada. Gaudí sabía que no viviría para verla completa y dijo: 'Mi cliente no tiene prisa' —refiriéndose a Dios.",
     imagen_url: 'https://images.unsplash.com/photo-1539037116277-4db20889f2d4?w=700&q=80', tags: ['cultura','gastronomía'] },
   { id: 'paris', nombre: 'París', region: 'Francia · Europa',
     descripcion: 'Museos de clase mundial, bulevares elegantes y la Torre Eiffel iluminándose cada noche como ninguna otra.',
+    resena: 'La Ciudad Luz necesita pocas presentaciones, pero nunca defrauda. Museos de clase mundial, bulevares elegantes, bistrós con olor a mantequilla y la Torre Eiffel que al caer la noche se ilumina como ninguna otra ciudad en el mundo.',
+    dato_curioso: 'Debajo de París existe una red de catacumbas de más de 300 km con los restos de aproximadamente 6 millones de personas, más del doble de la población actual de la ciudad.',
     imagen_url: 'https://images.unsplash.com/photo-1431274172761-fca41d930114?w=700&q=80', tags: ['romántico','cultura'] }
 ];
 
@@ -106,6 +150,12 @@ function renderizarDestinos(destinos) {
     card.setAttribute('data-animate', 'fade-up');
     card.setAttribute('data-delay', String(Math.min(index * 100, 500)));
 
+    const datoHtml = d.dato_curioso ? `
+      <div class="dhp-sep"></div>
+      <div class="dhp-dato-label">¿Sabías que…?</div>
+      <p class="dhp-dato">${d.dato_curioso}</p>
+    ` : '';
+
     card.innerHTML = `
       <img
         src="${d.imagen_url}"
@@ -116,7 +166,12 @@ function renderizarDestinos(destinos) {
       <div class="destino-overlay">
         <div class="destino-region">${d.region}</div>
         <div class="destino-name">${d.nombre}</div>
-        <div class="destino-desc">${d.descripcion}</div>
+      </div>
+      <div class="destino-hover-panel">
+        <div class="dhp-name">${d.nombre}</div>
+        <div class="dhp-region">${d.region}</div>
+        <p class="dhp-resena">${d.resena || d.descripcion}</p>
+        ${datoHtml}
       </div>
     `;
 
