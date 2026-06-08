@@ -53,12 +53,19 @@ export default async function handler(req, res) {
   }
 
   // 3. Rate limit por IP (5 req / hora)
+  //    Si Redis falla, fallamos cerrado (no llamamos a Claude) para no exponer
+  //    el endpoint de costo sin la capa de rate limiting.
   const ip = req.headers['x-forwarded-for']?.split(',')[0]?.trim() || 'unknown';
   const key = `rate:${ip}`;
-  const count = await redis.incr(key);
-  if (count === 1) await redis.expire(key, RATE_WINDOW);
-  if (count > RATE_LIMIT) {
-    return res.status(429).json({ error: 'Demasiadas solicitudes. Intentá en 1 hora.' });
+  try {
+    const count = await redis.incr(key);
+    if (count === 1) await redis.expire(key, RATE_WINDOW);
+    if (count > RATE_LIMIT) {
+      return res.status(429).json({ error: 'Demasiadas solicitudes. Intentá en 1 hora.' });
+    }
+  } catch (err) {
+    console.error('Error de rate limiting (Redis):', err);
+    return res.status(503).json({ error: 'Servicio no disponible. Intentá más tarde.' });
   }
 
   // 4. Validar body
@@ -99,7 +106,16 @@ export default async function handler(req, res) {
     });
 
     const data = await response.json();
-    return res.status(response.status).json(data);
+
+    // No reenviamos el body crudo de Anthropic al cliente: evita filtrar
+    // detalles internos (request IDs, estructura de errores, etc.).
+    if (!response.ok) {
+      console.error('Error de la API de Anthropic:', response.status, data?.error);
+      const status = response.status === 429 ? 429 : 502;
+      return res.status(status).json({ error: 'No se pudo generar el itinerario. Intentá de nuevo.' });
+    }
+
+    return res.status(200).json({ content: data.content });
   } catch (error) {
     console.error('Error calling Anthropic API:', error);
     return res.status(500).json({ error: 'Internal server error' });
