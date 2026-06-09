@@ -137,6 +137,18 @@ async function cargarDestinos() {
   }
 }
 
+// Escapa texto antes de inyectarlo en innerHTML. Hoy los datos vienen de un
+// JSON estático controlado, pero esto evita XSS si la fuente cambia (CMS, admin,
+// input externo) y previene que comillas en imagen_url rompan los atributos.
+function escHtml(value) {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#x27;');
+}
+
 function renderizarDestinos(destinos) {
   const grid = document.getElementById('destGrid');
   if (!grid) return;
@@ -150,27 +162,32 @@ function renderizarDestinos(destinos) {
     card.setAttribute('data-animate', 'fade-up');
     card.setAttribute('data-delay', String(Math.min(index * 100, 500)));
 
+    const nombre   = escHtml(d.nombre);
+    const region   = escHtml(d.region);
+    const resena   = escHtml(d.resena || d.descripcion);
+    const imagenUrl = escHtml(d.imagen_url);
+
     const datoHtml = d.dato_curioso ? `
       <div class="dhp-sep"></div>
       <div class="dhp-dato-label">¿Sabías que…?</div>
-      <p class="dhp-dato">${d.dato_curioso}</p>
+      <p class="dhp-dato">${escHtml(d.dato_curioso)}</p>
     ` : '';
 
     card.innerHTML = `
       <img
-        src="${d.imagen_url}"
-        alt="${d.nombre} — ${d.region}"
+        src="${imagenUrl}"
+        alt="${nombre} — ${region}"
         loading="lazy"
         onerror="this.src='https://images.unsplash.com/photo-1488085061387-422e29b40080?w=700&q=80'"
       >
       <div class="destino-overlay">
-        <div class="destino-region">${d.region}</div>
-        <div class="destino-name">${d.nombre}</div>
+        <div class="destino-region">${region}</div>
+        <div class="destino-name">${nombre}</div>
       </div>
       <div class="destino-hover-panel">
-        <div class="dhp-name">${d.nombre}</div>
-        <div class="dhp-region">${d.region}</div>
-        <p class="dhp-resena">${d.resena || d.descripcion}</p>
+        <div class="dhp-name">${nombre}</div>
+        <div class="dhp-region">${region}</div>
+        <p class="dhp-resena">${resena}</p>
         ${datoHtml}
       </div>
     `;

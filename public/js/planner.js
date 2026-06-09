@@ -151,7 +151,7 @@ async function generarItinerario() {
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
     const data = await response.json();
-    const texto = data.content?.[0]?.text;
+    const texto = data.text;
 
     if (!texto) throw new Error('Respuesta vacía de la IA');
 

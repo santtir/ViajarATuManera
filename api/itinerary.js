@@ -39,11 +39,17 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  // 1. CORS / Origin check
+  // 1. Origin check — si ALLOWED_ORIGIN está configurado, EXIGIMOS que el
+  //    header Origin coincida. Rechazamos también cuando falta (los navegadores
+  //    envían Origin en POST same-origin; un cliente que lo omite no es legítimo).
+  //    Nota: no es una barrera infranqueable (un cliente no-navegador puede
+  //    falsificar el header), pero cierra el bypass de "sin Origin = pasa".
   const allowedOrigin = process.env.ALLOWED_ORIGIN || '';
-  const origin = req.headers['origin'];
-  if (allowedOrigin && origin && origin !== allowedOrigin) {
-    return res.status(403).json({ error: 'Forbidden' });
+  if (allowedOrigin) {
+    const origin = req.headers['origin'];
+    if (origin !== allowedOrigin) {
+      return res.status(403).json({ error: 'Forbidden' });
+    }
   }
 
   // 2. Verificar page token HMAC
@@ -99,7 +105,21 @@ export default async function handler(req, res) {
     });
 
     const data = await response.json();
-    return res.status(response.status).json(data);
+
+    if (!response.ok) {
+      // No reenviar la respuesta cruda de Anthropic al cliente (puede exponer
+      // detalles internos de la API). Logueamos server-side y devolvemos genérico.
+      console.error('Anthropic API error:', response.status, data?.error?.type || '');
+      return res.status(502).json({ error: 'No se pudo generar el itinerario' });
+    }
+
+    const text = data?.content?.[0]?.text;
+    if (!text) {
+      console.error('Anthropic API: respuesta sin texto');
+      return res.status(502).json({ error: 'No se pudo generar el itinerario' });
+    }
+
+    return res.status(200).json({ text });
   } catch (error) {
     console.error('Error calling Anthropic API:', error);
     return res.status(500).json({ error: 'Internal server error' });
