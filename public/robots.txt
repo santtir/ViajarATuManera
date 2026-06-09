@@ -1,0 +1,8 @@
+# robots.txt — Viajar A Tu Manera
+User-agent: *
+Allow: /
+
+# No indexar endpoints internos de la API
+Disallow: /api/
+
+Sitemap: https://viajaratumanera.tur.ar/sitemap.xml
