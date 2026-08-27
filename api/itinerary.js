@@ -1,5 +1,5 @@
-import crypto from 'crypto';
-import { Redis } from '@upstash/redis';
+import crypto from "crypto";
+import { Redis } from "@upstash/redis";
 
 const redis = Redis.fromEnv();
 
@@ -16,27 +16,34 @@ REGLAS ESTRICTAS — seguirlas sin excepción:
 7. Sos cálido, inspirador y experto, con el tono de un guía de viajes de lujo.
 8. Limitás tu respuesta al formato de itinerario solicitado; no agregás secciones extras.`;
 
-const RATE_LIMIT     = 5;
-const RATE_WINDOW    = 3600;
+const RATE_LIMIT = 5;
+const RATE_WINDOW = 3600;
 const MAX_INPUT_CHARS = 1500;
 const TOKEN_WINDOW_MIN = 30;
 
 function verifyPageToken(token) {
   const secret = process.env.PAGE_TOKEN_SECRET;
-  if (!secret || !token || typeof token !== 'string' || token.length !== 64) return false;
+  if (!secret || !token || typeof token !== "string" || token.length !== 64)
+    return false;
   const w = Math.floor(Date.now() / (TOKEN_WINDOW_MIN * 60 * 1000));
   for (const win of [w, w - 1]) {
-    const expected = crypto.createHmac('sha256', secret).update(String(win)).digest('hex');
+    const expected = crypto
+      .createHmac("sha256", secret)
+      .update(String(win))
+      .digest("hex");
     try {
-      if (crypto.timingSafeEqual(Buffer.from(token), Buffer.from(expected))) return true;
-    } catch { /* ignorar */ }
+      if (crypto.timingSafeEqual(Buffer.from(token), Buffer.from(expected)))
+        return true;
+    } catch {
+      /* ignorar */
+    }
   }
   return false;
 }
 
 export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method not allowed" });
   }
 
   // 1. Origin check — si ALLOWED_ORIGIN está configurado, EXIGIMOS que el
@@ -44,84 +51,108 @@ export default async function handler(req, res) {
   //    envían Origin en POST same-origin; un cliente que lo omite no es legítimo).
   //    Nota: no es una barrera infranqueable (un cliente no-navegador puede
   //    falsificar el header), pero cierra el bypass de "sin Origin = pasa".
-  const allowedOrigin = process.env.ALLOWED_ORIGIN || '';
+  const allowedOrigin = process.env.ALLOWED_ORIGIN || "";
   if (allowedOrigin) {
-    const origin = req.headers['origin'];
+    const origin = req.headers["origin"];
     if (origin !== allowedOrigin) {
-      return res.status(403).json({ error: 'Forbidden' });
+      return res.status(403).json({ error: "Forbidden" });
     }
   }
 
   // 2. Verificar page token HMAC
-  const token = req.headers['x-page-token'];
+  const token = req.headers["x-page-token"];
   if (!verifyPageToken(token)) {
-    return res.status(401).json({ error: 'Token inválido o expirado' });
+    return res.status(401).json({ error: "Token inválido o expirado" });
   }
 
   // 3. Rate limit por IP (5 req / hora)
-  const ip = req.headers['x-forwarded-for']?.split(',')[0]?.trim() || 'unknown';
+  //    Si Redis falla, fallamos cerrado (no llamamos a Claude) para no exponer
+  //    el endpoint de costo sin la capa de rate limiting.
+  const ip = req.headers["x-forwarded-for"]?.split(",")[0]?.trim() || "unknown";
   const key = `rate:${ip}`;
-  const count = await redis.incr(key);
-  if (count === 1) await redis.expire(key, RATE_WINDOW);
-  if (count > RATE_LIMIT) {
-    return res.status(429).json({ error: 'Demasiadas solicitudes. Intentá en 1 hora.' });
+  try {
+    const count = await redis.incr(key);
+    if (count === 1) await redis.expire(key, RATE_WINDOW);
+    if (count > RATE_LIMIT) {
+      return res
+        .status(429)
+        .json({ error: "Demasiadas solicitudes. Intentá en 1 hora." });
+    }
+  } catch (err) {
+    console.error("Error de rate limiting (Redis):", err);
+    return res
+      .status(503)
+      .json({ error: "Servicio no disponible. Intentá más tarde." });
   }
 
   // 4. Validar body
   const { messages } = req.body;
   if (!messages || !Array.isArray(messages) || messages.length === 0) {
-    return res.status(400).json({ error: 'messages array is required' });
+    return res.status(400).json({ error: "messages array is required" });
   }
 
   // 5. Extraer ÚNICAMENTE el último mensaje de rol "user" con contenido string.
   //    Descartamos el array completo del cliente para evitar inyección de roles
   //    (mensajes falsos con role: "assistant" que intenten alterar el contexto).
   const lastUserMsg = messages
-    .filter(m => m && typeof m === 'object' && m.role === 'user' && typeof m.content === 'string')
+    .filter(
+      (m) =>
+        m &&
+        typeof m === "object" &&
+        m.role === "user" &&
+        typeof m.content === "string",
+    )
     .pop();
 
   if (!lastUserMsg) {
-    return res.status(400).json({ error: 'No se encontró mensaje de usuario válido' });
+    return res
+      .status(400)
+      .json({ error: "No se encontró mensaje de usuario válido" });
   }
 
   if (lastUserMsg.content.length > MAX_INPUT_CHARS) {
-    return res.status(400).json({ error: 'Input demasiado largo' });
+    return res.status(400).json({ error: "Input demasiado largo" });
   }
 
   try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
+    const response = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': process.env.ANTHROPIC_API_KEY,
-        'anthropic-version': '2023-06-01'
+        "Content-Type": "application/json",
+        "x-api-key": process.env.ANTHROPIC_API_KEY,
+        "anthropic-version": "2023-06-01",
       },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-6',
+        model: "claude-sonnet-4-6",
         max_tokens: 1500,
         system: SYSTEM_PROMPT,
-        messages: [{ role: 'user', content: lastUserMsg.content }]
-      })
+        messages: [{ role: "user", content: lastUserMsg.content }],
+      }),
     });
 
     const data = await response.json();
 
+    // No reenviamos el body crudo de Anthropic al cliente: evita filtrar
+    // detalles internos (request IDs, estructura de errores, etc.).
     if (!response.ok) {
-      // No reenviar la respuesta cruda de Anthropic al cliente (puede exponer
-      // detalles internos de la API). Logueamos server-side y devolvemos genérico.
-      console.error('Anthropic API error:', response.status, data?.error?.type || '');
-      return res.status(502).json({ error: 'No se pudo generar el itinerario' });
+      console.error("Anthropic API error:", response.status, data?.error?.type || "");
+      const status = response.status === 429 ? 429 : 502;
+      return res
+        .status(status)
+        .json({ error: "No se pudo generar el itinerario. Intentá de nuevo." });
     }
 
     const text = data?.content?.[0]?.text;
     if (!text) {
-      console.error('Anthropic API: respuesta sin texto');
-      return res.status(502).json({ error: 'No se pudo generar el itinerario' });
+      console.error("Anthropic API: respuesta sin texto");
+      return res
+        .status(502)
+        .json({ error: "No se pudo generar el itinerario. Intentá de nuevo." });
     }
 
     return res.status(200).json({ text });
   } catch (error) {
-    console.error('Error calling Anthropic API:', error);
-    return res.status(500).json({ error: 'Internal server error' });
+    console.error("Error calling Anthropic API:", error);
+    return res.status(500).json({ error: "Internal server error" });
   }
 }
