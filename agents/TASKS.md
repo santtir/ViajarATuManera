@@ -95,7 +95,7 @@ Implementar carga de JSON y render de cards según `FEATURE_DESTINATIONS.md`.
 **Verificar:**
 
 - El grid de destinos se llena al cargar la página
-- Si se borra temporalmente `data/destinations.json`, aparecen los destinos de fallback
+- Si se borra temporalmente `public/data/destinations.json`, aparecen los destinos de fallback
 - Las cards reciben `data-animate` y `data-delay`
 
 ---
