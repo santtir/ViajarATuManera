@@ -177,7 +177,7 @@ El contenido real se implementa en las tasks correspondientes.
 
 ## Paso 5 — Crear archivo de datos de destinos
 
-### `data/destinations.json`
+### `public/data/destinations.json`
 
 Usar los 6 destinos que están hardcodeados en el HTML original.
 Estructura exacta según `agents/FEATURE_DESTINATIONS.md`.

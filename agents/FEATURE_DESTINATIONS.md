@@ -1,7 +1,7 @@
 # Feature: Pack de Destinos
 
 ## Archivos
-- `data/destinations.json` — pack de destinos activo
+- `public/data/destinations.json` — pack de destinos activo (servido en `/data/destinations.json`)
 - `public/js/destinations.js` — carga y renderiza las cards
 
 ## Descripción
@@ -11,7 +11,7 @@ periódicamente (mensual o por pedido del cliente) sin tocar código.
 
 ---
 
-## Estructura de `data/destinations.json`
+## Estructura de `public/data/destinations.json`
 
 ```json
 {
@@ -154,7 +154,7 @@ document.addEventListener('DOMContentLoaded', cargarDestinos);
 
 ## Workflow para actualizar el pack
 
-1. Editar `data/destinations.json` con los nuevos destinos
+1. Editar `public/data/destinations.json` con los nuevos destinos
 2. Commit: `git commit -m "Actualiza pack de destinos Vol. X"`
 3. Push a `main`
 4. Vercel hace deploy automático en ~30 segundos
@@ -164,7 +164,7 @@ document.addEventListener('DOMContentLoaded', cargarDestinos);
 
 ## Acceptance criteria
 
-- [ ] Los destinos se cargan desde `data/destinations.json` via fetch
+- [ ] Los destinos se cargan desde `public/data/destinations.json` via fetch (`/data/destinations.json`)
 - [ ] Si el fetch falla, se muestran los 6 destinos de fallback
 - [ ] Las cards reciben `data-animate="fade-up"` y `data-delay` correcto
 - [ ] Las imágenes tienen `onerror` con imagen fallback de Unsplash
