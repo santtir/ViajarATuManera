@@ -59,8 +59,22 @@ function mostrarErrorCotiz(mensaje) {
 
 function mostrarExitoCotiz(email) {
   document.getElementById('cotizFormEl').hidden = true;
-  document.getElementById('confirmEmail').textContent = email;
+
   const success = document.getElementById('cotiz-success');
+  success.innerHTML = `
+    <div class="success-icon">✅</div>
+    <h3>¡Recibimos tu solicitud!</h3>
+    <p>
+      Te enviamos una confirmación a
+      <strong id="confirmEmail"></strong>.<br />
+      Un asesor te contactará en menos de 24 horas para diseñar juntos tu
+      viaje perfecto.
+    </p>
+    <button class="cotiz-btn cotiz-btn--secondary" onclick="resetCotizacion()">
+      Enviar otra consulta
+    </button>
+  `;
+  document.getElementById('confirmEmail').textContent = email;
   success.hidden = false;
   success.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
@@ -68,8 +82,14 @@ function mostrarExitoCotiz(email) {
 function resetCotizacion() {
   document.getElementById('cotizFormEl').reset();
   document.getElementById('cotizFormEl').hidden = false;
-  document.getElementById('cotiz-success').hidden = true;
-  document.getElementById('cotizError').hidden = true;
+
+  const success = document.getElementById('cotiz-success');
+  success.hidden = true;
+  success.innerHTML = '';
+
+  const error = document.getElementById('cotizError');
+  error.hidden = true;
+  error.textContent = '';
 }
 
 window.enviarCotizacion = enviarCotizacion;
