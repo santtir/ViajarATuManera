@@ -201,7 +201,7 @@ function parsearItinerario(texto) {
 
 function renderItinerario(secciones, meta) {
   document.getElementById('rDestino').textContent =
-    sel.dest[0]?.replace(/^\S+\s/, '') || 'Tu destino';
+    sel.dest[0] || 'Tu destino';
   document.getElementById('rMeta').textContent = meta;
 
   const container = document.getElementById('itineraryCards');
@@ -245,7 +245,7 @@ function renderItinerario(secciones, meta) {
     .join('\n\n');
 
   window._itinerarioMeta    = meta;
-  window._itinerarioDest    = sel.dest.map(d => d.replace(/^\S+\s/, '')).join(', ');
+  window._itinerarioDest    = sel.dest.join(', ');
   window._itinerarioResumen = secciones.find(s => s.titulo === 'Itinerario Día a Día')?.contenido || '';
   window._itinerarioPax     = sel.pax;
   window._itinerarioPres    = sel.pres;
@@ -254,7 +254,7 @@ function renderItinerario(secciones, meta) {
 
 function buildMeta() {
   const dur = document.getElementById('dur').value;
-  return `${dur} días · ${sel.pres} · ${sel.tipo[0]?.replace(/^\S+\s/, '') || ''}`;
+  return `${dur} días · ${sel.pres} · ${sel.tipo[0] || ''}`;
 }
 
 // ─── Error / Reset ────────────────────────────────────────────
